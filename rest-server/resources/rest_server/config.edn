@@ -2,11 +2,16 @@
  {:duct.core/project-ns rest-server
 
   :duct.router/ataraxy
-  {:routes {}}}
+  {:routes
+   {[:get "/"] [:rest-server.handler/index]}}
 
- :duct.profile/dev   #duct/include "dev"
- :duct.profile/local #duct/include "local"
- :duct.profile/prod  {}
+  ;; Handlers
+  [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}}
+
+
+ :duct.profile/dev    #duct/include "dev"
+ :duct.profile/local  #duct/include "local"
+ :duct.profile/prod   {}
 
  :duct.module/logging {}
  :duct.module.web/api
