@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: peridot:0.5.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/peridot/peridot/0.5.1/peridot-0.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

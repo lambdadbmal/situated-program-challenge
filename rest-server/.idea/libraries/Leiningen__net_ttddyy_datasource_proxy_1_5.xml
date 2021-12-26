@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: net.ttddyy/datasource-proxy:1.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/ttddyy/datasource-proxy/1.5/datasource-proxy-1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: eftest:0.5.9">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/eftest/eftest/0.5.9/eftest-0.5.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
