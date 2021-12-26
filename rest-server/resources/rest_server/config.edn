@@ -1,12 +1,18 @@
 {:duct.profile/base
- {:duct.core/project-ns rest-server
+ {:duct.core/project-ns                                rest-server
 
   :duct.router/ataraxy
   {:routes
-   {[:get "/"] [:rest-server.handler/index]}}
+   {
+    [:get "/"] [:rest-server.handler/index]
+    [:get "/groups"] [:rest-server.handler.group/list]}
+   }
 
   ;; Handlers
-  [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}}
+  [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}
+  [:duct.handler.static/ok :rest-server.handler.group/list] {:body {:articles "group list"}}
+
+  }
 
 
  :duct.profile/dev    #duct/include "dev"
