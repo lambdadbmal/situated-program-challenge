@@ -1,5 +1,5 @@
 {:duct.profile/base
- {:duct.core/project-ns                                rest-server
+ {:duct.core/project-ns                                     rest-server
 
   ;:duct.router/ataraxy
   ;{:routes
@@ -9,26 +9,10 @@
   ;  }
   ; }
 
-  ;:duct.module/ataraxy
-  ;{["/users"] {[:post] [:users/create]
-  ;             [:post "/signin"] [:users/signin]}
-  ; ["/articles"] {[:get] [:articles/index]
-  ;                [:post] ^:jws-auth [:articles/create]}}
-
   ;; Handlers
-  ;; [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}
-  ;[:duct.handler.static/ok :rest-server.handler.group/list] {:body {:articles "group list"}}
+  [:duct.handler.static/ok :rest-server.handler/index]      {:body {:articles "/articles"}}
+  [:duct.handler.static/ok :rest-server.handler.group/list] {:body {:articles "group list"}}
 
-  ;:duct.module/ataraxy
-  ;{"/" {:get [:rest-server.handler/index]}}
-
-  ;:duct.module/ataraxy
-  ;{"/"
-  ; {:get [:index]}
-  ;
-  ; "/groups"
-  ; {:get [:group/list]}}
-  [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}
   }
 
 
@@ -43,5 +27,6 @@
  {}
 
  :duct.module/ataraxy
- {[:get "/"] [:index]}
+ {[:get "/"]       [:index]
+  [:get "/groups"] [:group/list]}
  }
