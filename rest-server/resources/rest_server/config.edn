@@ -1,10 +1,12 @@
 {:duct.profile/base
- {:duct.core/project-ns                                      rest-server
+ {:duct.core/project-ns                                rest-server
 
   ;; Handlers
-  [:duct.handler.static/ok :rest-server.handler/index]       {:body {:articles "/articles"}}
-  [:duct.handler.static/ok :rest-server.handler.member/list] {:body {:articles "member list"}}
+  [:duct.handler.static/ok :rest-server.handler/index] {:body {:articles "/articles"}}
 
+  :rest-server.handler.member/list                     {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.member/create                   {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.member/fetch                    {:db #ig/ref :duct.database/sql}
   }
 
 
@@ -20,8 +22,12 @@
 
  :duct.module/ataraxy
  {
-  "/"        {:get [:index]}
+  "/" {:get [:index]}
 
-  "/members" {:get [:member/list]}
+  "/members"
+  {:get                          [:member/list]
+   [:post {member :body-params}] [:member/create member]
+   ["/" member-id]               {:get [:member/fetch ^int member-id]}
+   }
   }
  }
