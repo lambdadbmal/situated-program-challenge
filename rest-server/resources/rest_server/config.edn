@@ -1,17 +1,9 @@
 {:duct.profile/base
- {:duct.core/project-ns                                     rest-server
-
-  ;:duct.router/ataraxy
-  ;{:routes
-  ; {
-  ;  [:get "/"] [:rest-server.handler/index]
-  ;  ;[:get "/groups"] [:rest-server.handler.group/list]
-  ;  }
-  ; }
+ {:duct.core/project-ns                                      rest-server
 
   ;; Handlers
-  [:duct.handler.static/ok :rest-server.handler/index]      {:body {:articles "/articles"}}
-  [:duct.handler.static/ok :rest-server.handler.group/list] {:body {:articles "group list"}}
+  [:duct.handler.static/ok :rest-server.handler/index]       {:body {:articles "/articles"}}
+  [:duct.handler.static/ok :rest-server.handler.member/list] {:body {:articles "member list"}}
 
   }
 
@@ -27,6 +19,9 @@
  {}
 
  :duct.module/ataraxy
- {[:get "/"]       [:index]
-  [:get "/groups"] [:group/list]}
+ {
+  "/"        {:get [:index]}
+
+  "/members" {:get [:member/list]}
+  }
  }
