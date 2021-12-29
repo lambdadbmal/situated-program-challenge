@@ -7,6 +7,18 @@
   :rest-server.handler.member/list                     {:db #ig/ref :duct.database/sql}
   :rest-server.handler.member/create                   {:db #ig/ref :duct.database/sql}
   :rest-server.handler.member/fetch                    {:db #ig/ref :duct.database/sql}
+
+  :rest-server.handler.meetup/list                     {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.meetup/create                   {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.meetup/fetch                    {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.meetup/join                     {:db #ig/ref :duct.database/sql}
+
+  :rest-server.handler.group/list                      {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.group/create                    {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.group/join                      {:db #ig/ref :duct.database/sql}
+
+  :rest-server.handler.venue/list                      {:db #ig/ref :duct.database/sql}
+  :rest-server.handler.venue/create                    {:db #ig/ref :duct.database/sql}
   }
 
 
@@ -25,9 +37,73 @@
   "/" {:get [:index]}
 
   "/members"
-  {:get                          [:member/list]
-   [:post {member :body-params}] [:member/create member]
-   ["/" member-id]               {:get [:member/fetch ^int member-id]}
+  {
+   ;; メンバー一覧情報の取得
+   :get
+   [:member/list]
+
+   ;; メンバーの登録
+   [:post {member :body-params}]
+   [:member/create member]
+
+   ["/" member-id]
+   {
+    ;; メンバ情報の取得
+    :get [:member/fetch ^int member-id]
+    "/meetups"
+    {
+     ;; ミートアップへの参加
+     ["/" event-id]
+     {:post [:meetup/join ^int member-id ^int event-id]}}
+
+    "/groups"
+    {
+     ;; グループへの参加
+     ["/" group-id]
+     {[:post {group-member :body-params}]
+      [:group/join ^int member-id ^int group-id group-member]}}}
+
    }
+
+  "/groups"
+  {
+   ;; グループ一覧の取得
+   :get
+   [:group/list]
+
+   ;; グループの登録
+   [:post {group :body-params}]
+   [:group/create group]
+
+   ["/" group-id]
+   {
+    "/meetups"
+    {
+     ;; ミートアップイベント一覧情報の取得
+     :get
+     [:meetup/list ^int group-id]
+
+     ;; ミートアップイベントの登録
+     [:post {meetup :body-params}]
+     [:meetup/create ^int group-id meetup]
+
+     ;; ミートアップイベント情報の取得
+     ["/" event-id]
+     [:meetup/fetch ^int group-id ^int event-id]
+     }
+
+    "/venues"
+    {
+     ;; 会場一覧の取得
+     :get
+     [:venue/list ^int group-id]
+
+     ;; 会場の登録
+     [:post {venue :body-params}]
+     [:venue/create ^int group-id venue]
+     }
+    }
+   }
+
   }
  }

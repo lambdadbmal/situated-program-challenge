@@ -9,7 +9,7 @@
 
 (defmethod ig/init-key ::create [_ {:keys [db]}]
   (fn [{[_ member] :ataraxy/result}]
-    (println "launch member/create")
+    (println "launch member/create" member)
     [::response/ok])
   )
 
