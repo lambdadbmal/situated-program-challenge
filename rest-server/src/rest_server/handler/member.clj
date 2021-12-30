@@ -1,11 +1,24 @@
 (ns rest-server.handler.member
   (:require [ataraxy.response :as response]
-            [integrant.core :as ig]))
+            [integrant.core :as ig]
+            [clojure.java.jdbc :as jdbc]
+            [honeysql.core :as sql]))
 
+;(defmethod ig/init-key ::list [_ {:keys [db]}]
+;  (fn [_]
+;    (println "launch member/list")
+;    [::response/ok]))
+
+(defn- select-members [{db :spec}]
+  (jdbc/query db "SELECT * FROM members"))
+
+;; まずは直接DBを呼び出してみよう
 (defmethod ig/init-key ::list [_ {:keys [db]}]
   (fn [_]
     (println "launch member/list")
-    [::response/ok]))
+    ;; (println "db" db)
+    (let [members (select-members db)]
+      [::response/ok members])))
 
 (defmethod ig/init-key ::create [_ {:keys [db]}]
   (fn [{[_ member] :ataraxy/result}]
