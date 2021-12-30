@@ -9,15 +9,20 @@
 ;    (println "launch member/list")
 ;    [::response/ok]))
 
+;; JDBC経由で生のSQLを文字列で組み立ててクエリーを発行する場合
 (defn- select-members [{db :spec}]
   (jdbc/query db "SELECT * FROM members"))
+
+;; JDBC経由でHoneySQLで組み立てたSQLを発行する場合
+(defn- select-members2 [{db :spec}]
+  (jdbc/query db (sql/format (sql/build :select :* :from :members))))
 
 ;; まずは直接DBを呼び出してみよう
 (defmethod ig/init-key ::list [_ {:keys [db]}]
   (fn [_]
     (println "launch member/list")
     ;; (println "db" db)
-    (let [members (select-members db)]
+    (let [members (select-members2 db)]
       [::response/ok members])))
 
 (defmethod ig/init-key ::create [_ {:keys [db]}]

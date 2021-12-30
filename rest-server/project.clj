@@ -8,17 +8,18 @@
                  [duct/module.logging "0.5.0"]
                  [duct/module.sql "0.6.1"]
                  [duct/module.web "0.7.3"]
-                 [org.postgresql/postgresql "42.2.19"]]
+                 [org.postgresql/postgresql "42.2.19"]
+                 [honeysql "1.0.461"]]
   :plugins [[duct/lein-duct "0.12.3"]]
   :main ^:skip-aot rest-server.main
   :resource-paths ["resources" "target/resources"]
-  :prep-tasks     ["javac" "compile" ["run" ":duct/compiler"]]
-  :middleware     [lein-duct.plugin/middleware]
+  :prep-tasks ["javac" "compile" ["run" ":duct/compiler"]]
+  :middleware [lein-duct.plugin/middleware]
   :profiles
-  {:dev  [:project/dev :profiles/dev]
-   :repl {:prep-tasks   ^:replace ["javac" "compile"]
-          :repl-options {:init-ns user}}
-   :uberjar {:aot :all}
+  {:dev          [:project/dev :profiles/dev]
+   :repl         {:prep-tasks   ^:replace ["javac" "compile"]
+                  :repl-options {:init-ns user}}
+   :uberjar      {:aot :all}
    :profiles/dev {}
    :project/dev  {:source-paths   ["dev/src"]
                   :resource-paths ["dev/resources"]
