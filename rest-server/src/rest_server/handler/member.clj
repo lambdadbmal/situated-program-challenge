@@ -1,8 +1,7 @@
 (ns rest-server.handler.member
   (:require [ataraxy.response :as response]
             [integrant.core :as ig]
-            [clojure.java.jdbc :as jdbc]
-            [honeysql.core :as sql]))
+            [rest-server.boundary.db.member :as db.member]))
 
 ;(defmethod ig/init-key ::list [_ {:keys [db]}]
 ;  (fn [_]
@@ -10,20 +9,19 @@
 ;    [::response/ok]))
 
 ;; JDBC経由で生のSQLを文字列で組み立ててクエリーを発行する場合
-(defn- select-members [{db :spec}]
-  (jdbc/query db "SELECT * FROM members"))
+;(defn- select-members [{db :spec}]
+;  (jdbc/query db "SELECT * FROM members"))
 
 ;; JDBC経由でHoneySQLで組み立てたSQLを発行する場合
-(defn- select-members2 [{db :spec}]
-  (jdbc/query db (sql/format (sql/build :select :* :from :members))))
+;(defn- select-members2 [{db :spec}]
+;  (jdbc/query db (sql/format (sql/build :select :* :from :members))))
 
-;; まずは直接DBを呼び出してみよう
+;; 作成したMembers protocol経由でアクセスする。
 (defmethod ig/init-key ::list [_ {:keys [db]}]
   (fn [_]
     (println "launch member/list")
     ;; (println "db" db)
-    (let [members (select-members2 db)]
-      [::response/ok members])))
+    [::response/ok (db.member/list-members db)]))
 
 (defmethod ig/init-key ::create [_ {:keys [db]}]
   (fn [{[_ member] :ataraxy/result}]
