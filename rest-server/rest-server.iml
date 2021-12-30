@@ -58,6 +58,7 @@
     <orderEntry type="library" name="Leiningen: hawk:0.2.11" level="project" />
     <orderEntry type="library" name="Leiningen: hiccup:1.0.5" level="project" />
     <orderEntry type="library" name="Leiningen: hikari-cp:2.6.0" level="project" />
+    <orderEntry type="library" name="Leiningen: honeysql:1.0.461" level="project" />
     <orderEntry type="library" name="Leiningen: instaparse:1.4.8" level="project" />
     <orderEntry type="library" name="Leiningen: integrant/repl:0.3.2" level="project" />
     <orderEntry type="library" name="Leiningen: integrant:0.7.0" level="project" />
