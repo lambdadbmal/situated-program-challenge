@@ -10,7 +10,8 @@
                  [duct/module.web "0.7.3"]
                  [org.postgresql/postgresql "42.2.19"]
                  [honeysql "1.0.461"]
-                 [camel-snake-kebab "0.4.2"]]
+                 [camel-snake-kebab "0.4.2"]
+                 [clojure.java-time "0.3.3"]]
   :plugins [[duct/lein-duct "0.12.3"]]
   :main ^:skip-aot rest-server.main
   :resource-paths ["resources" "target/resources"]
