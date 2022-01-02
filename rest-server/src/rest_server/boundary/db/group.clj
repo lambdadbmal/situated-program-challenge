@@ -1,21 +1,8 @@
 (ns rest-server.boundary.db.group
   (:require [duct.database.sql]
             [honeysql.core :as sql]
-            [camel-snake-kebab.core :refer [->kebab-case ->snake_case]]
-            [camel-snake-kebab.extras :refer [transform-keys]]
-            [clojure.java.jdbc :as jdbc]
-            [clojure.set :as set]
-            [tick.core :as t])
+            [rest-server.boundary.db.core :as db])
   (:import (duct.database.sql Boundary)))
-
-(defn group-with-id [group]
-  (set/rename-keys group {:id :group-id}))
-
-(defn group-with-name [group]
-  (set/rename-keys group {:group-name :name}))
-
-(defn now []
-  (java.sql.Timestamp/from (t/now)))
 
 (defprotocol Groups
   (list-groups [db])
@@ -26,10 +13,21 @@
 
 (extend-protocol Groups
   Boundary
-  (list-groups [{db :spec}]
-    (jdbc/query db (sql/format (sql/build :select :* :from :groups))))
-  (create-group [{db :spec} group]
-    (let [record (assoc (transform-keys ->snake_case (group-with-name group)) :created_at (now))]
-      (group-with-id
-        (first
-          (jdbc/insert! db :groups record))))))
+  (list-groups [db]
+    (db/select db (sql/build :select :*
+                             :from :groups)))
+  (create-group [db group]
+    (db/insert! db :groups group))
+  (fetch-group [db group-id]
+    (db/select-one db (sql/build :select :*
+                                 :from :groups
+                                 :where [:= :id group-id])))
+  (fetch-group-admin-members [db group-id]
+    (db/select db (sql/build :select :members.*
+                             :from :members
+                             :join [:groups_members [:= :members.id :groups_members.member_id]]
+                             :where [:and
+                                     [:= :groups_members.group_id group-id]
+                                     [:= :groups_members.admin true]])))
+  (create-group-members [db group-members]
+    (db/insert-multi! db :groups_members group-members)))
