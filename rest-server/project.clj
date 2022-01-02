@@ -8,10 +8,10 @@
                  [duct/module.logging "0.5.0"]
                  [duct/module.sql "0.6.1"]
                  [duct/module.web "0.7.3"]
-                 [org.postgresql/postgresql "42.2.19"]
+                 [org.postgresql/postgresql "42.3.1"]
                  [honeysql "1.0.461"]
                  [camel-snake-kebab "0.4.2"]
-                 [clojure.java-time "0.3.3"]]
+                 [tick "0.5.0-RC5"]]
   :plugins [[duct/lein-duct "0.12.3"]]
   :main ^:skip-aot rest-server.main
   :resource-paths ["resources" "target/resources"]

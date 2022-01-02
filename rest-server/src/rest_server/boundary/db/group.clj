@@ -5,7 +5,7 @@
             [camel-snake-kebab.extras :refer [transform-keys]]
             [clojure.java.jdbc :as jdbc]
             [clojure.set :as set]
-            [java-time :as jt])
+            [tick.core :as t])
   (:import (duct.database.sql Boundary)))
 
 (defn group-with-id [group]
@@ -15,7 +15,7 @@
   (set/rename-keys group {:group-name :name}))
 
 (defn now []
-  (jt/sql-timestamp (jt/local-date)))
+  (java.sql.Timestamp/from (t/now)))
 
 (defprotocol Groups
   (list-groups [db])
