@@ -14,6 +14,7 @@
     [::response/ok (db.member/list-members db)]))
 
 (defmethod ig/init-key ::create [_ {:keys [db]}]
+  ;; TODO: 何らかの要因でdb.*/create-*が失敗した場合のエラー処理をするべき。
   (fn [{[_ member] :ataraxy/result}]
     (println "launch member/create" member)
     (let [id (db.member/create-member db member)]
